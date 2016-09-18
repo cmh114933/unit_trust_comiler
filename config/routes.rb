@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
+  root 'unit_trusts#index'
+  resources :unit_trusts
+  post '/new_price_update' => 'unit_trusts#new_price_update', as: 'new_price_update'
+  post '/single_price_update/:id' => 'unit_trusts#single_price_update', as: 'single_price_update'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'plainpage#index'
+  # root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

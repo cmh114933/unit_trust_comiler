@@ -1,0 +1,38 @@
+<h1>UNIT TRUST UPDATER</h1>
+
+<%if signed_in?%>
+<%= link_to 'Add New Unit Trust', new_unit_trust_path%>
+	<table id = 'fund_table'>
+		<tr>
+			<th>Unit Trust Name</th>
+			<th>Start Month</th>
+			<th><span class='period'>Start</span>  Price</th>
+			<th>Number of Units</th>
+			<th>Value</th>
+			<th></th>
+			<th><span class='period'>Current</span> Price</th>
+			<th>Number of Units</th>
+			<th>Value</th>
+			<th>Comparison</th>
+			<th></th>		
+		</tr>
+		<% @unit_trusts.each do |ut|%>
+			<tr class = 'result'>
+				<td><%=ut.name%></td>
+				<td><%=ut.start_month%></td>
+				<td><%= number_with_delimiter(ut.original_price, :delimiter => ',')%></td>
+				<td><%= number_with_delimiter(ut.original_num_units.round(2), :delimiter => ',')%></td>
+				<td><%= number_with_delimiter((ut.original_price * ut.original_num_units).round(2), :delimiter => ',')%></td>
+				<td></td>
+				<td><%= number_with_delimiter(ut.price, :delimiter => ',')%></td>
+				<td><%= number_with_delimiter(ut.num_units.round(2), :delimiter => ',')%></td>
+				<td><%= number_with_delimiter(ut.calculate_value.round(2), :delimiter => ',')%></td>
+				<td><%= number_with_delimiter((ut.calculate_value - (ut.original_price * ut.original_num_units)).round(2), :delimiter => ',')%></td>
+				<td><%= link_to 'Update', single_price_update_path(ut.id), method: :post%></td>
+			</tr>
+		<%end%>
+	</table>
+	<%= link_to 'Update all', new_price_update_path, method: :post%>
+<%end%>
+
+
