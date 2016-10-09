@@ -55,6 +55,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    chartkick (2.1.1)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
     clearance (1.14.2)
@@ -103,6 +104,7 @@ GEM
     multi_json (1.11.2)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
+    pg (0.19.0)
     phantomjs (2.1.1.0)
     poltergeist (1.10.0)
       capybara (~> 2.1)
@@ -209,12 +211,14 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
   byebug
+  chartkick
   clearance
   coffee-rails (~> 4.1.0)
   font-awesome-rails
   jbuilder (~> 2.0)
   jquery-rails
   nokogiri
+  pg
   phantomjs
   poltergeist
   rails (= 4.2.4)

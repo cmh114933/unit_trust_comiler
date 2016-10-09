@@ -7,4 +7,7 @@ class PlainpageController < ApplicationController
     #flash[:danger ] = "Naomi let the dog out!"
   end
 
+  def login 
+  	render layout:false
+  end
 end

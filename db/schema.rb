@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160916065130) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "unit_trusts", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "name"
@@ -21,12 +24,12 @@ ActiveRecord::Schema.define(version: 20160916065130) do
     t.float    "original_num_units"
     t.float    "num_units",          default: 0.0
     t.string   "url"
-    t.string   "start_month"
+    t.datetime "start_date"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
   end
 
-  add_index "unit_trusts", ["user_id"], name: "index_unit_trusts_on_user_id"
+  add_index "unit_trusts", ["user_id"], name: "index_unit_trusts_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at",                     null: false
@@ -37,17 +40,18 @@ ActiveRecord::Schema.define(version: 20160916065130) do
     t.string   "remember_token",     limit: 128, null: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email"
-  add_index "users", ["remember_token"], name: "index_users_on_remember_token"
+  add_index "users", ["email"], name: "index_users_on_email", using: :btree
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token", using: :btree
 
   create_table "ut_histories", force: :cascade do |t|
     t.integer  "unit_trust_id"
-    t.string   "month"
+    t.datetime "date"
     t.float    "price"
+    t.float    "num_units"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
 
-  add_index "ut_histories", ["unit_trust_id"], name: "index_ut_histories_on_unit_trust_id"
+  add_index "ut_histories", ["unit_trust_id"], name: "index_ut_histories_on_unit_trust_id", using: :btree
 
 end

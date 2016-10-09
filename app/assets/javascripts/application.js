@@ -43,3 +43,44 @@
 
 
 
+
+
+$(document).ready(function(){
+
+
+	$('.update_all').on("click", function(e){
+		$('.update').each(function(){
+			$(this).replaceWith("<img src=http://i.stack.imgur.com/FhHRx.gif alt=loading>")
+		})
+
+		$.ajax({
+			type: 'POST',
+			url: '/new_price_update',
+			success: function(data){
+				window.location.replace('/unit_trusts')
+			}
+		})
+	});
+
+	$('.update').on("click", function(){
+		$(this).replaceWith("<img src=http://i.stack.imgur.com/FhHRx.gif alt=loading>")
+		$.ajax({
+			type: 'POST',
+			url: '/single_price_update/'+$(this)[0].id,
+			success: function(data){
+				window.location.replace('/unit_trusts')
+			}
+		})
+	});
+
+	$('#date_search_btn').on("click",function(){
+		$.ajax({
+			type: 'POST',
+			url: window.location.href  +'/search_history/'+ '?date=' + $('#ut_history_date').val(),
+			success: function(data){
+
+					$('#search_output').replaceWith("<tr id = search_output><td>" + data.date.split("T")[0] + "</td><td>" + data.price + "</td><td>" + data.num_units + "</td><td>" + Math.round(data.price * data.num_units*100)/100 + "</td></tr>" )
+			}
+		})
+	})
+})

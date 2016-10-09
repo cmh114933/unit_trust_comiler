@@ -8,7 +8,7 @@ class CreateUnitTrusts < ActiveRecord::Migration
       t.float	:original_num_units
       t.float	:num_units, default: 0
       t.string 	:url
-      t.string	:start_month
+      t.date	:start_date
       t.timestamps null: false
     end
   end

@@ -1,38 +1,117 @@
-<h1>UNIT TRUST UPDATER</h1>
 
-<%if signed_in?%>
-<%= link_to 'Add New Unit Trust', new_unit_trust_path%>
-	<table id = 'fund_table'>
-		<tr>
-			<th>Unit Trust Name</th>
-			<th>Start Month</th>
-			<th><span class='period'>Start</span>  Price</th>
-			<th>Number of Units</th>
-			<th>Value</th>
-			<th></th>
-			<th><span class='period'>Current</span> Price</th>
-			<th>Number of Units</th>
-			<th>Value</th>
-			<th>Comparison</th>
-			<th></th>		
-		</tr>
-		<% @unit_trusts.each do |ut|%>
-			<tr class = 'result'>
-				<td><%=ut.name%></td>
-				<td><%=ut.start_month%></td>
-				<td><%= number_with_delimiter(ut.original_price, :delimiter => ',')%></td>
-				<td><%= number_with_delimiter(ut.original_num_units.round(2), :delimiter => ',')%></td>
-				<td><%= number_with_delimiter((ut.original_price * ut.original_num_units).round(2), :delimiter => ',')%></td>
-				<td></td>
-				<td><%= number_with_delimiter(ut.price, :delimiter => ',')%></td>
-				<td><%= number_with_delimiter(ut.num_units.round(2), :delimiter => ',')%></td>
-				<td><%= number_with_delimiter(ut.calculate_value.round(2), :delimiter => ',')%></td>
-				<td><%= number_with_delimiter((ut.calculate_value - (ut.original_price * ut.original_num_units)).round(2), :delimiter => ',')%></td>
-				<td><%= link_to 'Update', single_price_update_path(ut.id), method: :post%></td>
-			</tr>
-		<%end%>
-	</table>
-	<%= link_to 'Update all', new_price_update_path, method: :post%>
-<%end%>
+<body class="nav-md">
+
+  <div class="container body">
 
 
+    <div class="main_container">
+
+      <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+
+          <div class="clearfix"></div>
+
+        </div>
+      </div>
+
+      <!-- page content -->
+      <div class="right_col" role="main" style="min-height: 555.111px;">
+        <div class="">
+
+          <div class="page-title">
+            <div class="title_left">
+              <h3>
+                    Your Unit Trusts  <%=DateTime.now.to_date%>
+                </h3>
+            </div>
+
+          </div>
+          <div class="clearfix"></div>
+
+
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="x_panel">
+
+
+                <div class="x_content">
+
+
+                  <table class="table table-striped responsive-utilities jambo_table bulk_action">
+                    <thead>
+                      <tr class="headings">
+                        <th class="column-title">Last Update</th>
+                        <th class="column-title">Unit Trust Name</th>
+                        <th class="column-title">Start Month</th>
+                        <th class="column-title"><span class='period'>Cost</span>  Price</th>
+                        <th class="column-title">Number of Units</th>
+                        <th class="column-title">Value</th>
+                        <th class="column-title"></th>
+                        <th class="column-title"><br><span class='period'>Current</span> Price</th>
+                        <th class="column-title">Number of Units</th>
+                        <th class="column-title">Value</th>
+                        <th class="column-title">Comparison</th>
+                        <th class="column-title">Percentage Growth(%)</th>  
+                        <th class="column-title"></th>                        
+                        <th class="column-title"></th>         
+                        <th class="bulk-actions" colspan="7">
+                          <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                        </th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+						<% @unit_trusts.each do |ut|%>
+				        <tr class="even pointer">
+                <td class=" "><%=ut.updated_at.to_date%></td>
+								<td class=" "><%=link_to ut.name,unit_trust_path(ut)%></td>
+								<td class=" "><%=ut.start_date.to_date%></td>
+								<td class=" "><%= number_with_delimiter(ut.original_price.round(4), :delimiter => ',')%></td>
+								<td class=" "><%= number_with_delimiter(ut.original_num_units.round(2), :delimiter => ',')%></td>
+								<td class=" " align= right><%= number_with_delimiter((ut.original_price * ut.original_num_units).round(0), :delimiter => ',')%></td>
+								<td class=" "></td>
+								<td class=" "><%= number_with_delimiter(ut.price.round(4), :delimiter => ',')%></td>
+								<td class=" "><%= number_with_delimiter(ut.num_units.round(2), :delimiter => ',')%></td>
+								<td class=" " align = right><%= number_with_delimiter(ut.calculate_value.round(0), :delimiter => ',')%></td>
+								<td class="a-right a-right " align= right><%= number_with_delimiter((ut.calculate_value - (ut.original_price * ut.original_num_units)).round(0), :delimiter => ',')%></td>
+                <td class=" last" align= right><%= number_with_delimiter(((ut.calculate_value - (ut.original_price * ut.original_num_units))/(ut.original_price * ut.original_num_units)*100).round(2), :delimiter => ',')%></td>
+								<td class=" last"><button class='update' id = '<%=ut.id%>'>Update</button></td>
+                <td class=" last"><%= link_to "Edit", edit_unit_trust_path(ut)%></td>
+							</tr>
+						<%end%>
+            <tr>
+                <tr class="even pointer">
+                <td class=" "></td>
+                <td class=" "></td>
+                <td class=" "></td>
+                <td class=" "></td>
+                <td class=" " align= right><%=number_with_delimiter(@total_ori_value.round(2), :delimiter => ',')%></td>
+                <td class=" "></td>
+                <td class=" "></td>
+                <td class=" "></td>
+                <td class=" " align= right><%= number_with_delimiter(@total_current_value.round(2), :delimiter => ',')%></td>
+                <td class="a-right a-right " align= right><%=  number_with_delimiter(@total_comparison_value.round(2), :delimiter => ',')%></td>
+                <td class=" last"></td>
+            </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+  </div>
+
+</body>
+
+
+<div class="modal_load"></div>

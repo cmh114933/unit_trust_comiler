@@ -1,8 +1,26 @@
 Rails.application.routes.draw do
+
+  resources :passwords, controller: "clearance/passwords", only: [:create, :new]
+  resource :session, controller: "sessions", only: [:create]
+
+  resources :users, controller: "clearance/users", only: [:create] do
+    resource :password,
+      controller: "clearance/passwords",
+      only: [:create, :edit, :update]
+
+  end
+
+  get "/sign_in" => "sessions#new", as: "sign_in"
+  delete "/sign_out" => "sessions#destroy", as: "sign_out"
+  get "/sign_up" => "clearance/users#new", as: "sign_up"
   root 'unit_trusts#index'
-  resources :unit_trusts
+  resources :unit_trusts do
+            post '/search_history' => 'unit_trusts#search_history', as: 'search_history'
+  end
   post '/new_price_update' => 'unit_trusts#new_price_update', as: 'new_price_update'
   post '/single_price_update/:id' => 'unit_trusts#single_price_update', as: 'single_price_update'
+  get '/login' => 'plainpage#login', as: 'login'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
