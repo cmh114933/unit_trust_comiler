@@ -1,7 +1,4 @@
-require 'nokogiri'
-require 'open-uri'
-require 'watir-webdriver'
-require 'phantomjs'
+
 
 class UnitTrustsController < ApplicationController
   before_action :set_unit_trust, only: [:edit, :update, :destroy, :show]
